@@ -1,14 +1,11 @@
-#imagen base
- FROM ubuntu
-#Establecer directorio de trabajo
+ FROM ubuntu:latest
+
  WORKDIR /app
-#Copiar archivos de package.json y package-lock.json
- COPY package*.json ./
- RUN apt-get update 
- RUN apt install -y apache2
-#Copiar codigo de aplicacion
- COPY . .
-#Exponer el puerto en el que la aplicacion correra
- EXPOSE 3000
-#iniciar la aplicacion
- CMD ["node", "index.js"]
+
+RUN apt-get update && apt-get install -y apache2 git
+ 
+RUN git clone https://github.com/AgusFassola/finalFassolaAgustin.git /var/www/html
+ 
+EXPOSE 80
+
+CMD ["apachectl", "-D", "FOREGROUND"]

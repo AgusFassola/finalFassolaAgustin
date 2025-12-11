@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+#va a trabajar cuando encuentre un push en la rama main
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name:  Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with: 
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build Docker image
+      run: | 
+          IMAGE_NAME=finalFassolaAgustin/miapache
+          COMMIT_TAG=${{ github.sha }}
+
+          #Construir imagen con el hash del commit
+          docker build -t $IMAGE_NAME:$COMMIT_TAG .
+
+          #Tambien etiquetar como "latest"
+          docker tag $IMAGE_NAME:$COMMIT_TAG $IMAGE_NAME:latest
+
+    - name: Push Docker image to Docker Hub
+      run: |
+          IMAGE_NAME=finalFassolaAgustin/miapache
+          COMMIT_TAG=${{ github.sha }}
+        
+          docker push $IMAGE_NAME:$COMMIT_TAG
+          docker push $IMAGE_NAME:latest
