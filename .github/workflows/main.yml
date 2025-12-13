@@ -21,7 +21,7 @@ jobs:
 
     - name: Build Docker image
       run: | 
-        IMAGE_NAME=docker.io/finalfassolaagustin/miapache
+        IMAGE_NAME=agusfassoladocker/miapache
         COMMIT_TAG=${{ github.sha }}
 
         docker build -t $IMAGE_NAME:$COMMIT_TAG .
@@ -29,7 +29,7 @@ jobs:
 
     - name: Push Docker image
       run: |
-        IMAGE_NAME=docker.io/finalfassolaagustin/miapache
+        IMAGE_NAME=agusfassoladocker/miapache
         COMMIT_TAG=${{ github.sha }}
 
         docker push $IMAGE_NAME:$COMMIT_TAG
