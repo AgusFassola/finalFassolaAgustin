@@ -1,6 +1,6 @@
- FROM ubuntu:latest
+FROM ubuntu:latest
 
- WORKDIR /app
+WORKDIR /app
 
 RUN apt-get update && apt-get install -y apache2 git
 RUN rm -rf /var/www/html/*
